@@ -18,14 +18,15 @@ public class UserRepositoryTest extends AdminprojectApplicationTests {
 
     @Test
     public void create(){
-        String account="Test01";
-        String password="Test01";
+        String account="Test03";
+        String password="Test03";
         String status="REGISTERED";
         String email="Test01@gmail.com";
-        String phoneNumber="010-1111-2222";
+        String phoneNumber="010-1111-3333";
         LocalDateTime registeredAt=LocalDateTime.now();
         LocalDateTime createdAt=LocalDateTime.now();
         String createdBy="AdminServer";
+
 
         User user =new User();
         user.setAccount(account);
@@ -34,8 +35,11 @@ public class UserRepositoryTest extends AdminprojectApplicationTests {
         user.setEmail(email);
         user.setPhoneNumber(phoneNumber);
         user.setRegisteredAt(registeredAt);
-        user.setCreatedAt(createdAt);
-        user.setCreatedBy(createdBy);
+       /* user.setCreatedAt(createdAt);
+        user.setCreatedBy(createdBy);*/
+
+        //User u=User.builder().account(account).password(password).status(status).email(email).build();
+        //Builder annotation을 이용해 생성자 생성, 파라미터 사용자가 선택가능
 
         User newUser=userRepository.save(user);
         Assertions.assertNotNull(newUser);
@@ -46,6 +50,11 @@ public class UserRepositoryTest extends AdminprojectApplicationTests {
     @Transactional
     public void read(){
         User user=userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
+
+        //chain -> 이미 생성되어있는 객체에 대해서 set
+        //user.setEmail().setPhoneNumber().setStatus()
+        //User u=new User().setACcount().setEmail()~~
+
         if(user!=null){
             user.getOrderGroupList().stream().forEach(orderGroup -> {
                 System.out.println("-----------------주문묶음-----------------");

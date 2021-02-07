@@ -1,9 +1,12 @@
 package com.example.adminproject.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.Accessors;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,12 +14,15 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity//order_detail
+@EntityListeners(AuditingEntityListener.class)
 @AllArgsConstructor
 @NoArgsConstructor
 //@ToString(exclude={"user","item"})
 //user와 item들이 서로 상호 참조를 이루고있기 때문에 tostring시에 오버플로가 발생하게 된다.
 //위의 annotation은 user와 item은 tostring()에서 제외하는내용의 annotation이다
 @ToString(exclude = {"orderGroup","item"})
+@Builder
+@Accessors(chain = true)
 public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,12 +36,16 @@ public class OrderDetail {
 
     private BigDecimal totalPrice;
 
+    @CreatedDate
     private LocalDateTime createdAt;
 
+    @CreatedBy
     private String createdBy;
 
+    @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @LastModifiedBy
     private String updatedBy;
 
     //OrderDetail N : 1 Item

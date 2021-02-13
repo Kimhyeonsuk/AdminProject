@@ -26,12 +26,6 @@ public class Header<T> {
 
     private T data;
 
-    public Header(LocalDateTime transactionTime,String resultCode,String description,T data){
-        this.transactionTime=transactionTime;
-        this.resultCode=resultCode;
-        this.description=description;
-        this.data=data;
-    }
     //OK
     public static<T> Header<T> OK(){
         return (Header<T>)Header.builder()

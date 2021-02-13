@@ -54,11 +54,10 @@ public class User {
 
     //User : OrderGroup  1: N의 관계
     //USer의 입장에서는 ordergroup을 여러개 가질수있다.
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<OrderGroup> orderGroupList;
 
-
+}
   /*  //1 : N user와 order detail과의 관계
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
     private List<OrderDetail> orderDetailList;*/
-}

@@ -56,7 +56,7 @@ public class OrderDetail {
     //OrderDetail N : 1 OrderGroup
     @ManyToOne
     private OrderGroup orderGroup;
-
+}
 
    /* //N : 1 order와 user간의 관계
     @ManyToOne
@@ -65,4 +65,3 @@ public class OrderDetail {
     //N : 1 orderdetail과 item과의 관계
     @ManyToOne
     private Item item;*/
-}

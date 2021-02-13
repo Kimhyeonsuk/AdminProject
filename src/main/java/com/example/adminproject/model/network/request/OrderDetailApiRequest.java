@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.net.InterfaceAddress;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,19 +18,13 @@ public class OrderDetailApiRequest {
 
     private String status;
 
-    private String name;
+    private LocalDateTime arrivalDate;
 
-    private String title;
+    private Integer quantity;
 
-    private String content;
+    private BigDecimal totalPrice;
 
-    private BigDecimal price;
+    private Long orderGroupId;
 
-    private String brandName;
-
-    private LocalDateTime registeredAt;
-
-    private LocalDateTime unregisteredAt;
-
-    private Long partnerId;
+    private Long userId;
 }

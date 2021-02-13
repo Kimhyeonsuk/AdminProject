@@ -26,5 +26,5 @@ public class OrderDetailApiRequest {
 
     private Long orderGroupId;
 
-    private Long userId;
+    private Long itemId;
 }

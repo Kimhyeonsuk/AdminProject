@@ -25,5 +25,5 @@ public class OrderDetailApiResponse {
 
     private Long orderGroupId;
 
-    private Long userId;
+    private Long itemId;
 }

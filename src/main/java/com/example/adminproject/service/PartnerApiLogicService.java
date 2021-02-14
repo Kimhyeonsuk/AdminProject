@@ -1,13 +1,14 @@
 package com.example.adminproject.service;
 
 import com.example.adminproject.ifs.CrudInterface;
+import com.example.adminproject.model.entity.Partner;
 import com.example.adminproject.model.network.Header;
 import com.example.adminproject.model.network.request.PartnerApiRequest;
 import com.example.adminproject.model.network.response.PartnerApiResponse;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, PartnerApiResponse> {
+public class PartnerApiLogicService extends BaseService<PartnerApiRequest, PartnerApiResponse, Partner> {
     @Override
     public Header<PartnerApiResponse> create(Header<PartnerApiRequest> request) {
         return null;
@@ -15,7 +16,9 @@ public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, 
 
     @Override
     public Header<PartnerApiResponse> read(Long id) {
-        return null;
+        return baseRepository.findById(id)
+                .map(partner -> response(partner))
+                .orElseGet(()->Header.ERROR("데이터 없음"));
     }
 
     @Override
@@ -26,5 +29,23 @@ public class PartnerApiLogicService implements CrudInterface<PartnerApiRequest, 
     @Override
     public Header<PartnerApiResponse> delete(Long id) {
         return null;
+    }
+
+    private Header<PartnerApiResponse> response(Partner partner){
+        PartnerApiResponse body=PartnerApiResponse.builder()
+                .id(partner.getId())
+                .name(partner.getName())
+                .status(partner.getStatus())
+                .address(partner.getAddress())
+                .callCenter(partner.getCallCenter())
+                .partnerNumber(partner.getPartnerNumber())
+                .businessNumber(partner.getBusinessNumber())
+                .ceoName(partner.getCeoName())
+                .registeredAt(partner.getRegisteredAt())
+                .unregisteredAt(partner.getUnregisteredAt())
+                .categoryId(partner.getCategory().getId())
+                .build();
+
+        return Header.OK(body);
     }
 }

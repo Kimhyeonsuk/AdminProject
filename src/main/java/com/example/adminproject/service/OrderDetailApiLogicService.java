@@ -20,9 +20,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class OrderDetailApiLogicService implements CrudInterface<OrderDetailApiRequest, OrderDetailApiResponse> {
-    @Autowired
-    OrderDetailRepository orderDetailRepository;
+public class OrderDetailApiLogicService extends BaseService<OrderDetailApiRequest, OrderDetailApiResponse,OrderDetail> {
     @Autowired
     ItemRepository itemRepository;
     @Autowired
@@ -41,13 +39,13 @@ public class OrderDetailApiLogicService implements CrudInterface<OrderDetailApiR
                 .orderGroup(orderGroupRepository.getOne(body.getOrderGroupId()))
                 .build();
 
-        OrderDetail newOrderDetail=orderDetailRepository.save(orderDetail);
+        OrderDetail newOrderDetail=baseRepository.save(orderDetail);
         return response(newOrderDetail);
     }
 
     @Override
     public Header<OrderDetailApiResponse> read(Long id) {
-        Optional<OrderDetail> optional= orderDetailRepository.findById(id);
+        Optional<OrderDetail> optional= baseRepository.findById(id);
         return optional.map(orderDetail-> response(orderDetail))
                 .orElseGet(()->
                         Header.ERROR("데이터가 없습니다."));
@@ -56,7 +54,7 @@ public class OrderDetailApiLogicService implements CrudInterface<OrderDetailApiR
     @Override
     public Header<OrderDetailApiResponse> update(Header<OrderDetailApiRequest> request) {
         OrderDetailApiRequest body=request.getData();
-        return orderDetailRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(entityOrderDetail->{
                     entityOrderDetail
                             .setStatus(body.getStatus())
@@ -67,16 +65,16 @@ public class OrderDetailApiLogicService implements CrudInterface<OrderDetailApiR
                             .setItem(itemRepository.getOne(body.getItemId()));
                     return entityOrderDetail;
                 })
-                .map(newEntityOrderDetail-> orderDetailRepository.save(newEntityOrderDetail))//저장이된 entity item 이 반환이 된다.
+                .map(newEntityOrderDetail-> baseRepository.save(newEntityOrderDetail))//저장이된 entity item 이 반환이 된다.
                 .map(orderDetail->response(orderDetail))
                 .orElseGet(()->Header.ERROR("데이터 없음"));
     }
 
     @Override
     public Header delete(Long id) {
-        return orderDetailRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(entityOrderDetail->{
-                    orderDetailRepository.delete(entityOrderDetail);
+                    baseRepository.delete(entityOrderDetail);
                     return Header.OK();
                 })
                 .orElseGet(()->Header.ERROR("데이터 없음"));

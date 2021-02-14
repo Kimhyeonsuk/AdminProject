@@ -7,6 +7,7 @@ import com.example.adminproject.model.network.request.ItemApiRequest;
 import com.example.adminproject.model.network.response.ItemApiResponse;
 import com.example.adminproject.repository.ItemRepository;
 import com.example.adminproject.repository.PartnerRepository;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
-    @Autowired
-    ItemRepository itemRepository;
+public class ItemApiLogicService extends BaseService<ItemApiRequest,ItemApiResponse,Item> {
     @Autowired
     private PartnerRepository partnerRepository;
 
@@ -33,14 +32,14 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
                 .registeredAt(LocalDateTime.now())
                 .partner(partnerRepository.getOne(body.getPartnerId()))
                 .build();
-        Item newItem= itemRepository.save(item);
+        Item newItem= baseRepository.save(item);
         return response(newItem);
 
     }
 
     @Override
     public Header<ItemApiResponse> read(Long id) {
-        Optional<Item> optional= itemRepository.findById(id);
+        Optional<Item> optional= baseRepository.findById(id);
         return optional.map(item -> response(item))
                 .orElseGet(()->
                     Header.ERROR("데이터가 없습니다."));
@@ -49,7 +48,7 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
     @Override
     public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
         ItemApiRequest body=request.getData();
-        return itemRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(entityItem->{
                     entityItem
                             .setStatus(body.getStatus())
@@ -63,17 +62,17 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
                     return entityItem;
                 })
-                .map(newEntityItem-> itemRepository.save(newEntityItem))//저장이된 entity item 이 반환이 된다.
+                .map(newEntityItem-> baseRepository.save(newEntityItem))//저장이된 entity item 이 반환이 된다.
                 .map(item->response(item))
                 .orElseGet(()->Header.ERROR("데이터 없음"));
     }
 
     @Override
     public Header delete(Long id) {
-        Optional<Item> optional= itemRepository.findById(id);
+        Optional<Item> optional= baseRepository.findById(id);
         //map은 return 해야한다.
         return optional.map(item -> {
-            itemRepository.delete(item);
+            baseRepository.delete(item);
             return Header.OK();
         })
         .orElseGet(()->Header.ERROR("데이터가 없습니다."));

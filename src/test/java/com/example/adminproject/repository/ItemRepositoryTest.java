@@ -2,6 +2,7 @@ package com.example.adminproject.repository;
 
 import com.example.adminproject.AdminprojectApplicationTests;
 import com.example.adminproject.model.entity.Item;
+import com.example.adminproject.model.enumclass.ItemStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -16,11 +17,11 @@ public class ItemRepositoryTest extends AdminprojectApplicationTests {
     @Test
     public void create(){
         Item item=new Item();
-        item.setStatus("UNREGISTERED");
+        item.setStatus(ItemStatus.UNREGISTERED);
         item.setName("삼성 컴퓨터");
         item.setTitle("삼성 노트북 A100");
         item.setContent("2019년형 노트북 입니다");
-        item.setPrice(900000);
+        //item.setPrice(900000);
         item.setBrandName("삼성");
         item.setRegisteredAt(LocalDateTime.now());
         item.setCreatedAt(LocalDateTime.now());

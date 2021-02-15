@@ -61,11 +61,13 @@ public class OrderDetailApiLogicService extends BaseService<OrderDetailApiReques
                             .setArrivalDate(body.getArrivalDate())
                             .setQuantity(body.getQuantity())
                             .setTotalPrice(body.getTotalPrice())
+                            .setUpdatedBy("AdminUser")
+                            .setUpdatedAt(LocalDateTime.now())
                             .setOrderGroup(orderGroupRepository.getOne(body.getOrderGroupId()))
                             .setItem(itemRepository.getOne(body.getItemId()));
                     return entityOrderDetail;
                 })
-                .map(newEntityOrderDetail-> baseRepository.save(newEntityOrderDetail))//저장이된 entity item 이 반환이 된다.
+                .map(newEntityOrderDetail-> baseRepository.save(newEntityOrderDetail))//저장이된 entity orderDetail 이 반환이 된다.
                 .map(orderDetail->response(orderDetail))
                 .orElseGet(()->Header.ERROR("데이터 없음"));
     }

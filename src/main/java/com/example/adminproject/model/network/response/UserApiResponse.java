@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -30,4 +31,6 @@ public class UserApiResponse {
     private LocalDateTime registeredAt;
 
     private LocalDateTime unregisteredAt;
+
+    private List<OrderGroupApiResponse> orderGroupApiResponseList;//추가된 필드
 }

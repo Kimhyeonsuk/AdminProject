@@ -32,7 +32,8 @@ class HelloWorldContorllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/api/helloworld")
         ).andDo(MockMvcResultHandlers.print())
-        .andExpect(MockMvcResultMatchers.status().isOk());
+        .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("HelloWorld"));
         //status가 ok인지 예측 status:200
 
     }

@@ -27,7 +27,7 @@ class BlockReposirotyTest {
         blockReposiroty.save(block);
         List<Block> blocks=blockReposiroty.findAll();
 
-        Assertions.assertEquals(blocks.size(),1);
-        Assertions.assertEquals(blocks.get(0).getName(),"martin");
+        Assertions.assertEquals(blocks.size(),3);
+        Assertions.assertEquals(blocks.get(0).getName(),"dennis");
     }
 }

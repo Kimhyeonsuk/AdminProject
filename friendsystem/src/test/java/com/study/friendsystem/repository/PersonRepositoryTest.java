@@ -18,33 +18,36 @@ class PersonRepositoryTest {
     @Test
     void crud(){
         Person person=new Person();
-        person.setName("martin");
+        person.setName("john");
         person.setAge(29);
         person.setBloodType("A");
         personRepository.save(person);
 
+
         //System.out.println(personRepository.findAll());
         //객체의 해시값이 출력된다.=> tostring 메소드를 overriding 해야함
-        List<Person> people=personRepository.findAll();
+        //List<Person> people=personRepository.findAll();
+        List<Person> people=personRepository.findByName("john");
         Assertions.assertEquals(people.size(),1);
-        Assertions.assertEquals(people.get(0).getName(),"martin");
+        Assertions.assertEquals(people.get(0).getName(),"john");
         Assertions.assertEquals(people.get(0).getAge(),29);
         Assertions.assertEquals(people.get(0).getBloodType(),"A");
+        personRepository.deleteAll();
     }
 
     @Test
     void hashCodeAndEquals(){
-        Person person1=new Person("martin",10,"A");
-        Person person2=new Person("martin",10,"A");
-
-        System.out.println(person1.equals(person2));
-        System.out.println(person1.hashCode());
-        System.out.println(person2.hashCode());
-
-        Map<Person,Integer> map=new HashMap<>();
-        map.put(person1,person1.getAge());
-
-        System.out.println(map);
-        System.out.println(map.get(person2));
+//        Person person1=new Person("martin",10,"A");
+//        Person person2=new Person("martin",10,"A");
+//
+//        System.out.println(person1.equals(person2));
+//        System.out.println(person1.hashCode());
+//        System.out.println(person2.hashCode());
+//
+//        Map<Person,Integer> map=new HashMap<>();
+//        map.put(person1,person1.getAge());
+//
+//        System.out.println(map);
+//        System.out.println(map.get(person2));
     }
 }
